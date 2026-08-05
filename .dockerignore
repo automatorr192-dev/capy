@@ -1,0 +1,7 @@
+.git
+.github
+design
+og-card.html
+Dockerfile
+.dockerignore
+*.md

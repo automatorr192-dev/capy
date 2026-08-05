@@ -1,0 +1,88 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Calistoga&family=DM+Sans:wght@500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1200px;height:630px;overflow:hidden;background:#15100b;color:#f8f0e3;
+  font-family:"DM Sans",system-ui,sans-serif;display:flex;align-items:center;gap:40px;padding:0 72px;position:relative}
+body::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(60% 80% at 78% 40%,rgba(255,171,69,.28),transparent 70%),
+             radial-gradient(50% 70% at 12% 85%,rgba(116,224,198,.14),transparent 70%)}
+.copy{position:relative;flex:1}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:9px 18px;border:1px solid #4a3826;
+  border-radius:999px;font-size:19px;color:#b6a48c;margin-bottom:26px}
+.dot{width:9px;height:9px;border-radius:50%;background:#74e0c6;box-shadow:0 0 12px #74e0c6}
+h1{font-family:"Calistoga",Georgia,serif;font-size:80px;line-height:1.02;letter-spacing:-.02em}
+h1 .amb{color:#ffab45}
+p{margin-top:24px;font-size:26px;line-height:1.45;color:#b6a48c;max-width:560px}
+.stage{position:relative;width:400px;height:400px;flex:none;display:grid;place-items:center}
+.stage::after{content:"";position:absolute;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(255,171,69,.30),transparent 70%);filter:blur(20px)}
+.mascot{position:relative;width:400px;height:400px}
+</style></head>
+<body>
+  <div class="copy">
+    <span class="badge"><span class="dot"></span>Live on Solana</span>
+    <h1>The chillest coin<br>in <span class="amb">crypto</span>.</h1>
+    <p>Liquidity burned. Contract renounced. Zero stress.</p>
+  </div>
+  <div class="stage"><svg class="mascot" viewBox="0 0 420 420" role="img" aria-label="A calm capybara relaxing in a warm hot spring with a yuzu fruit on its head">
+        <defs>
+          <radialGradient id="water" cx="50%" cy="30%" r="80%">
+            <stop offset="0%" stop-color="#8fe9d3"/><stop offset="100%" stop-color="#2f7f74"/>
+          </radialGradient>
+          <linearGradient id="fur" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#bd875a"/><stop offset="100%" stop-color="#9c6b40"/>
+          </linearGradient>
+          <radialGradient id="yz" cx="35%" cy="30%" r="75%">
+            <stop offset="0%" stop-color="#ffe08a"/><stop offset="60%" stop-color="#ffb24d"/><stop offset="100%" stop-color="#ff8a5c"/>
+          </radialGradient>
+          <filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3"/></filter>
+        </defs>
+        <!-- steam rising off the water -->
+        <g class="steam" filter="url(#soft)" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".13">
+          <path d="M96 326 q-16 -30 4 -56 q16 -22 0 -44"/>
+          <path d="M326 320 q16 -30 -4 -56 q-16 -22 0 -42"/>
+        </g>
+        <!-- water pool -->
+        <ellipse cx="210" cy="330" rx="196" ry="74" fill="url(#water)"/>
+        <ellipse cx="210" cy="312" rx="196" ry="60" fill="#15100b" opacity=".18"/>
+        <!-- body under/at waterline -->
+        <ellipse cx="210" cy="300" rx="120" ry="86" fill="url(#fur)"/>
+        <!-- ears -->
+        <ellipse cx="150" cy="150" rx="24" ry="26" fill="url(#fur)"/>
+        <ellipse cx="270" cy="150" rx="24" ry="26" fill="url(#fur)"/>
+        <ellipse cx="150" cy="153" rx="11" ry="13" fill="#7c5230"/>
+        <ellipse cx="270" cy="153" rx="11" ry="13" fill="#7c5230"/>
+        <!-- head -->
+        <path d="M112 208 q0 -78 98 -78 q98 0 98 78 q0 74 -98 74 q-98 0 -98 -74 Z" fill="url(#fur)"/>
+        <!-- cheeks blush -->
+        <ellipse cx="150" cy="212" rx="20" ry="13" fill="#ff8a5c" opacity=".22"/>
+        <ellipse cx="270" cy="212" rx="20" ry="13" fill="#ff8a5c" opacity=".22"/>
+        <!-- eyes (calm) -->
+        <ellipse cx="169" cy="196" rx="8.5" ry="10" fill="#2a1c10"/>
+        <ellipse cx="251" cy="196" rx="8.5" ry="10" fill="#2a1c10"/>
+        <circle cx="166" cy="192" r="2.6" fill="#fff" opacity=".85"/>
+        <circle cx="248" cy="192" r="2.6" fill="#fff" opacity=".85"/>
+        <!-- muzzle + nose -->
+        <ellipse cx="210" cy="240" rx="52" ry="38" fill="#c99a68"/>
+        <rect x="182" y="224" width="56" height="34" rx="15" fill="#6b4a2a"/>
+        <circle cx="199" cy="240" r="4" fill="#33210f"/>
+        <circle cx="221" cy="240" r="4" fill="#33210f"/>
+        <!-- yuzu on head -->
+        <ellipse cx="214" cy="118" rx="34" ry="12" fill="#15100b" opacity=".16"/>
+        <circle cx="210" cy="96" r="30" fill="url(#yz)"/>
+        <ellipse cx="199" cy="86" rx="9" ry="6" fill="#fff" opacity=".4"/>
+        <path d="M232 78 q18 -12 30 -4 q-8 16 -28 14 Z" fill="#7bbf7a"/>
+        <path d="M232 78 q10 -4 22 -2" fill="none" stroke="#5a9e5c" stroke-width="1.6"/>
+        <!-- little floating yuzu -->
+        <circle cx="70" cy="330" r="15" fill="url(#yz)"/>
+        <circle cx="352" cy="322" r="12" fill="url(#yz)"/>
+        <!-- water ripples -->
+        <g stroke="#d6fff4" stroke-width="2.5" fill="none" opacity=".45" stroke-linecap="round">
+          <path d="M92 348 q14 -8 28 0"/>
+          <path d="M300 338 q14 -8 28 0"/>
+          <path d="M150 366 q18 -9 36 0"/>
+        </g>
+      </svg></div>
+</body></html>

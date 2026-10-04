@@ -37,7 +37,7 @@ function splitLines(el) {
     lines[lines.length - 1].push(s.textContent);
   });
   el.setAttribute('aria-label', text);
-  el.innerHTML = lines.map((l, i) => `<span class="ln" aria-hidden="true"><span style="transition-delay:${i * 90}ms">${l.join(' ')}</span></span>`).join('');
+  el.innerHTML = lines.map((l, i) => `<span class="ln" aria-hidden="true"><span style="transition-delay:${i * 80}ms">${l.join(' ')}</span></span>`).join('');
 }
 fontsReady.then(() => {
   if (!reduce) $$('[data-split]').forEach(splitLines);
@@ -237,7 +237,7 @@ function layout() {
   ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
   waterY = H * (mobile ? .6 : .68);
   cs = mobile ? Math.min(W * .62 / 404, H * .34 / 150) : Math.min(W * .34 / 404, H * .3 / 150);
-  const capX = W * (mobile ? .56 : .66);
+  const capX = W * (mobile ? .5 : .66);
   capL = capX - 230 * cs;
   rimH = Math.max(22, H * .055);
   makeSprite();

@@ -2,8 +2,8 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const root = document.documentElement;
 
-const fontsReady = Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 900))]);
-fontsReady.then(() => requestAnimationFrame(() => root.classList.add('entered')));
+const fontsReady = Promise.race([document.fonts.ready, new Promise(r => setTimeout(r, 500))]);
+requestAnimationFrame(() => requestAnimationFrame(() => root.classList.add('entered')));
 
 const nav = $('#nav'), burger = $('#burger'), menu = $('#menu');
 burger.addEventListener('click', () => {
@@ -44,10 +44,10 @@ fontsReady.then(() => {
   const io = new IntersectionObserver(es => es.forEach(e => {
     if (!e.isIntersecting) return;
     const el = e.target, sibs = [...el.parentElement.children].filter(c => c.classList.contains('rv'));
-    el.style.transitionDelay = ((+el.dataset.delay || 0) * 80 + Math.max(0, sibs.indexOf(el)) * 90) + 'ms';
+    el.style.transitionDelay = ((+el.dataset.delay || 0) * 60 + Math.max(0, sibs.indexOf(el)) * 60) + 'ms';
     el.classList.add('is-in');
     io.unobserve(el);
-  }), { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+  }), { threshold: .08, rootMargin: '0px 0px 4% 0px' });
   $$('[data-split],.rv').forEach(el => io.observe(el));
 });
 

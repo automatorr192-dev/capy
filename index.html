@@ -86,15 +86,15 @@ h3{font-size:1.4rem; line-height:1.15}
 }
 
 .noren{position:fixed; inset:0; z-index:150; display:grid; grid-template-columns:repeat(4,1fr); pointer-events:none}
-.noren span{position:relative; overflow:hidden; background:var(--ink); border-left:2px solid #0f1a30; transform-origin:50% 0; transition:transform .9s var(--ease), opacity .4s .5s}
+.noren span{position:relative; overflow:hidden; background:var(--ink); border-left:2px solid #0f1a30; transform-origin:50% 0; transition:transform .6s var(--ease)}
 .noren span:first-child{border-left:0}
 .noren i{position:absolute; top:0; height:100%; width:400%; display:grid; place-items:center; align-content:center; gap:1.5rem; color:#fff; font-style:normal}
 .noren b{font-family:var(--fd); font-weight:400; font-size:min(42vw, 52vh); line-height:1}
 .noren em{font-family:var(--fd); font-style:normal; font-size:1.5rem; letter-spacing:.25em; color:var(--yuzu)}
 .noren span:nth-child(1) i{left:0} .noren span:nth-child(2) i{left:-100%} .noren span:nth-child(3) i{left:-200%} .noren span:nth-child(4) i{left:-300%}
 html.entered .noren span{transform:translateY(-102%) rotate(-3deg)}
-html.entered .noren span:nth-child(2){transition-delay:.06s} html.entered .noren span:nth-child(3){transition-delay:.12s} html.entered .noren span:nth-child(4){transition-delay:.18s}
-html.entered .noren{visibility:hidden; transition:visibility 0s 1.2s}
+html.entered .noren span:nth-child(2){transition-delay:.04s} html.entered .noren span:nth-child(3){transition-delay:.08s} html.entered .noren span:nth-child(4){transition-delay:.12s}
+html.entered .noren{visibility:hidden; transition:visibility 0s .8s}
 html:not(.js) .noren{display:none}
 
 .nav{position:fixed; inset:0 0 auto; z-index:60; height:var(--nav-h); transition:background-color .3s var(--snap), box-shadow .3s var(--snap)}
@@ -254,8 +254,8 @@ footer{padding:3rem 0 3.5rem; border-top:2px dashed var(--grout); color:var(--mu
 .toast.show{opacity:1; transform:translate(-50%, 0)}
 
 .ln{display:block; overflow:hidden; padding-bottom:.1em; margin-bottom:-.1em}
-.ln > span{display:block; transform:translateY(110%); transition:transform .95s var(--ease)}
-.rv{opacity:0; transform:translateY(1.5rem); transition:opacity .8s var(--ease), transform 1s var(--ease)}
+.ln > span{display:block; transform:translateY(110%); transition:transform .7s var(--ease)}
+.rv{opacity:0; transform:translateY(.9rem); transition:opacity .45s var(--ease), transform .55s var(--ease)}
 .is-in .ln > span{transform:none}
 .rv.is-in{opacity:1; transform:none}
 html:not(.js) .ln > span, html:not(.js) .rv{transform:none; opacity:1}
@@ -298,9 +298,9 @@ html:not(.js) .ln > span, html:not(.js) .rv{transform:none; opacity:1}
   <section class="hero" id="top" aria-labelledby="h1">
     <canvas id="bath" role="img" aria-label="Illustration: a capybara soaking in a hot spring under Mount Fuji with a yuzu on its head. Click the water to drop more yuzu."></canvas>
     <div class="hero-copy">
-      <h1 id="h1" data-split>The chillest coin in crypto.</h1>
-      <p class="lead rv" data-delay="3">A capybara-calm memecoin on Solana. Liquidity burned, contract renounced, zero stress.</p>
-      <div class="hero-cta rv" data-delay="5">
+      <h1 id="h1">The chillest coin in crypto.</h1>
+      <p class="lead">A capybara-calm memecoin on Solana. Liquidity burned, contract renounced, zero stress.</p>
+      <div class="hero-cta">
         <a class="btn btn-yuzu" href="#buy">Buy $CAPY</a>
         <a class="btn btn-line" href="#why">House rules</a>
       </div>

@@ -51,13 +51,13 @@
   --ease:cubic-bezier(.22,1,.36,1); --snap:cubic-bezier(.2,.8,.2,1); --spring:cubic-bezier(.34,1.56,.64,1);
   --fd:"Dela Gothic One","Arial Black","Arial Bold",system-ui,sans-serif;
   --fb:"Zen Maru Gothic",ui-rounded,system-ui,sans-serif;
-  --nav-h:4.5rem; --gut:2.5rem; --maxw:84rem;
+  --nav-h:4.5rem; --gut:2.5rem; --maxw:90rem;
 }
 html{font-size:16px; -webkit-text-size-adjust:100%; scroll-padding-top:calc(var(--nav-h) + 1rem)}
 @media (min-width:1024px){html{font-size:clamp(13.5px, calc(100vw / 1440 * 16), 22px)}}
 @media (max-width:599px){html{font-size:clamp(14px, calc(100vw / 390 * 16), 17.5px)} :root{--gut:1.25rem; --nav-h:4rem}}
 *,*::before,*::after{box-sizing:border-box}
-body{margin:0; background:var(--tile); color:var(--ink); font-family:var(--fb); font-weight:500; font-size:1.0625rem; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:clip}
+body{margin:0; background:var(--tile); color:var(--ink); font-family:var(--fb); font-weight:500; font-size:1.0625rem; line-height:1.5; -webkit-font-smoothing:antialiased; overflow-x:clip}
 h1,h2,h3,p,ul,ol,dl,dd,figure,blockquote{margin:0}
 ul,ol{padding:0; list-style:none}
 a{color:inherit; text-decoration:none}
@@ -132,9 +132,9 @@ html:not(.js) .noren{display:none}
 .bath-hint button{pointer-events:auto; border:0; background:transparent; font-weight:700; text-decoration:underline; text-underline-offset:.2em; cursor:pointer; padding:0 0 0 .4rem; color:var(--mut)}
 @media (max-width:767px){
   .hero{height:auto; min-height:0; padding-top:calc(var(--nav-h) + 1.5rem)}
-  .hero-copy{position:relative; left:auto; top:auto; padding:0 var(--gut) 1rem; max-width:none}
+  .hero-copy{position:relative; left:auto; top:auto; padding:2rem var(--gut) 2.5rem; max-width:none}
   .hero canvas{position:relative; display:block; height:62vw; min-height:20rem}
-  .bath-hint{position:relative; left:auto; right:auto; bottom:auto; width:fit-content; margin:0 var(--gut) 1.25rem}
+  .bath-hint{left:var(--gut); right:auto; bottom:auto; top:calc(var(--nav-h) + 1.5rem + max(62vw, 20rem) - 5.2rem); font-size:.85rem}
 }
 
 .board{background:var(--ink); color:#eef4f6; overflow:hidden}
@@ -183,9 +183,10 @@ html:not(.js) .noren{display:none}
 @media (max-width:899px){.tok{grid-template-columns:minmax(0,1fr); gap:2.5rem}}
 
 .machine{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:0; background:var(--ink); border-radius:calc(var(--r) * 1.4); padding:1.5rem; box-shadow:0 2rem 4rem -2rem rgba(22,36,63,.5)}
-.keys{display:grid; grid-template-columns:1fr 1fr; gap:1rem; padding:.5rem}
-.key{position:relative; aspect-ratio:1.15; border-radius:var(--r); border:0; background:#25365a; color:#dfe8f1; cursor:pointer; text-align:left; padding:1.1rem; display:flex; flex-direction:column; justify-content:space-between; box-shadow:inset 0 -.4rem 0 rgba(0,0,0,.25); transition:transform .15s var(--snap), background-color .2s var(--snap), box-shadow .15s var(--snap)}
+.keys{display:grid; grid-template-columns:1fr 1fr; gap:1rem; padding:.5rem; counter-reset:k}
+.key{position:relative; min-height:8.5rem; border-radius:var(--r); border:0; background:#25365a; color:#dfe8f1; cursor:pointer; text-align:left; padding:1.1rem; display:flex; flex-direction:column; justify-content:space-between; box-shadow:inset 0 -.4rem 0 rgba(0,0,0,.25); transition:transform .15s var(--snap), background-color .2s var(--snap), box-shadow .15s var(--snap)}
 .key b{font-family:var(--fd); font-weight:400; font-size:1.35rem; line-height:1.1}
+.key::before{counter-increment:k; content:"0" counter(k); position:absolute; right:1.1rem; top:1rem; font-family:var(--fd); font-size:1rem; opacity:.45}
 .key small{font-weight:700; font-size:.8rem; opacity:.75}
 .key[aria-selected="true"]{background:var(--yuzu); color:var(--ink); transform:translateY(.25rem); box-shadow:inset 0 -.15rem 0 rgba(0,0,0,.2)}
 .key:active{transform:translateY(.3rem)}
@@ -198,23 +199,28 @@ html:not(.js) .noren{display:none}
 .slip li{padding-left:1.5rem; position:relative; color:var(--ink-2)}
 .slip li::before{content:""; position:absolute; left:0; top:.6em; width:.6rem; height:.6rem; border-radius:50%; background:var(--yuzu); box-shadow:0 0 0 2px var(--ink)}
 .slip [role=tabpanel]{animation:slip .45s var(--ease)}
+.slip-foot{margin-top:auto; padding-top:1.25rem; border-top:2px dashed var(--grout); display:flex; justify-content:space-between; gap:1rem; font-weight:700; font-size:.85rem; color:var(--mut)}
+.slip [role=tabpanel]{margin-bottom:2rem}
 @keyframes slip{from{opacity:0; transform:translateY(.75rem)}to{opacity:1; transform:none}}
-@media (max-width:899px){.machine{grid-template-columns:1fr; padding:1rem} .key{aspect-ratio:auto; min-height:6.5rem} .slip{padding:1.5rem}}
+@media (max-width:899px){.machine{grid-template-columns:1fr; padding:1rem} .key{min-height:6.5rem} .slip{padding:1.5rem}}
 
-.seasons{display:grid; grid-template-columns:repeat(4,1fr); gap:1.25rem}
-.season{border-radius:var(--r); padding:1.75rem 1.5rem 2rem; background:var(--paper); border:2px solid transparent; display:flex; flex-direction:column; gap:.75rem; min-height:19rem}
+.seasons{display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:1rem}
+.season{position:relative; padding:2.25rem 2rem 0 0; border-top:2px solid var(--ink); display:flex; flex-direction:column; gap:.75rem}
+.season::before{content:""; position:absolute; left:0; top:-.6rem; width:1.1rem; height:1.1rem; border-radius:50%; border:2px solid var(--ink); background:var(--tile)}
+.season.done::before{background:var(--ink)}
+.season:not(.done):not(.now){border-top-style:dashed}
 .season .tag{align-self:flex-start; font-weight:700; font-size:.8rem; padding:.15rem .65rem; border-radius:999px; border:2px solid var(--ink)}
 .season.done .tag{background:var(--ink); color:#fff}
-.season.now{border-color:var(--ink); background:var(--yuzu-soft)}
+.season.now::before{background:var(--yuzu); width:1.5rem; height:1.5rem; top:-.8rem; box-shadow:0 0 0 .4rem var(--yuzu-soft)}
 .season.now .tag{background:var(--yuzu)}
-.season .when{margin-top:auto; font-family:var(--fd); font-size:.9rem; color:var(--mut)}
+.season .when{order:-1; font-family:var(--fd); font-size:.9rem; color:var(--mut)}
 .season p{color:var(--ink-2); font-size:1rem}
-@media (max-width:899px){.seasons{grid-template-columns:1fr 1fr} .season{min-height:0}}
-@media (max-width:520px){.seasons{grid-template-columns:1fr}}
+@media (max-width:899px){.seasons{grid-template-columns:1fr 1fr; row-gap:2.5rem}}
+@media (max-width:520px){.seasons{grid-template-columns:1fr; row-gap:0; margin-left:.6rem} .season{border-top:0; border-left:2px solid var(--ink); padding:0 0 2.25rem 1.75rem} .season:not(.done):not(.now){border-top:0; border-left-style:dashed} .season::before{left:-.65rem; top:0} .season.now::before{left:-.8rem}}
 
 .lockers{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:3rem}
-.locker{position:relative; display:flex; flex-direction:column; justify-content:space-between; min-height:15rem; padding:1.5rem; border-radius:var(--r); background:#d4e5e7; border:2px solid var(--ink); transition:transform .25s var(--snap), background-color .25s var(--snap)}
-.locker::after{content:""; position:absolute; right:1.5rem; top:50%; width:.7rem; height:3rem; margin-top:-1.5rem; border-radius:999px; background:var(--ink); opacity:.85}
+.locker{position:relative; display:flex; flex-direction:column; justify-content:space-between; min-height:11rem; padding:1.5rem; border-radius:var(--r); background:#d4e5e7; border:2px solid var(--ink); transition:transform .25s var(--snap), background-color .25s var(--snap)}
+.locker::after{content:attr(data-n); position:absolute; right:1.25rem; top:1.25rem; width:2.6rem; height:2.6rem; border-radius:50%; border:2px solid var(--ink); display:grid; place-items:center; font-family:var(--fd); font-size:.85rem; background:var(--tile)}
 .locker svg{width:2.4rem; height:2.4rem}
 .locker b{font-family:var(--fd); font-weight:400; font-size:1.6rem}
 .locker small{display:block; font-weight:700; color:var(--mut); font-size:.85rem}
@@ -222,24 +228,20 @@ html:not(.js) .noren{display:none}
 @media (hover:hover){.locker:hover{background:var(--yuzu); transform:translateY(-.25rem)} .locker:hover small{color:var(--ink-2)}}
 @media (max-width:767px){.lockers{grid-template-columns:1fr} .locker{min-height:8rem}}
 
-.faq{max-width:52rem}
-.qa{border-bottom:2px dashed var(--grout)}
-.qa summary{list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:2rem; padding:1.5rem 0; font-family:var(--fd); font-size:1.3rem; line-height:1.25}
-.qa summary::-webkit-details-marker{display:none}
-.pm{flex:none; width:2.2rem; height:2.2rem; border-radius:50%; border:2px solid var(--ink); position:relative; transition:background-color .2s, transform .35s var(--spring)}
-.pm::before,.pm::after{content:""; position:absolute; left:.55rem; right:.55rem; top:50%; height:2px; margin-top:-1px; background:var(--ink); border-radius:2px}
-.pm::after{transform:rotate(90deg); transition:transform .3s var(--snap)}
-.qa[open] .pm{background:var(--yuzu); transform:rotate(180deg)}
-.qa[open] .pm::after{transform:rotate(0)}
-.qa .ans{padding:0 4rem 1.75rem 0; color:var(--ink-2); max-width:60ch}
-@media (max-width:767px){.qa .ans{padding-right:0} .qa summary{font-size:1.1rem}}
+.faq{display:grid; grid-template-columns:1fr 1fr; gap:1rem}
+.qa{border-radius:var(--r); background:var(--paper); padding:1.75rem 1.75rem 2rem}
+.qa h3{font-family:var(--fd); font-weight:400; font-size:1.3rem; line-height:1.25}
+.qa.wide{grid-column:1 / -1; background:var(--yuzu-soft); border:2px solid var(--ink)}
+@media (max-width:767px){.faq{grid-template-columns:1fr} .qa h3{font-size:1.15rem}}
+.qa .ans{margin-top:.75rem; color:var(--ink-2); max-width:62ch}
 
 .final{padding:2rem 0 8rem}
 .final .box{position:relative; overflow:hidden; border-radius:calc(var(--r) * 1.6); background:#266e8f; color:#fff; padding:5.5rem 4rem; display:grid; grid-template-columns:1.2fr .8fr; align-items:center; gap:2rem}
 .final h2{font-size:clamp(2.4rem, 3.6vw + 1rem, 4.6rem)}
 .final p{margin-top:1rem; color:#eef7fa; max-width:36ch; font-size:1.15rem}
 .final .btn{margin-top:2rem}
-.final .big-yuzu{justify-self:center; width:min(22rem, 70%); aspect-ratio:1; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff3b8 0 6%, #ffe27a 14%, var(--yuzu) 45%, var(--yuzu-2) 100%); box-shadow:inset -1.5rem -1.5rem 3rem rgba(180,100,0,.25), 0 2.5rem 3rem -1.5rem rgba(0,0,0,.35); position:relative}
+.final .big-yuzu{justify-self:center; width:min(22rem, 70%); aspect-ratio:1; border-radius:50%; background:var(--yuzu); box-shadow:inset -1.6rem -1.4rem 0 rgba(214,130,0,.28); position:relative}
+.final .big-yuzu::after{content:""; position:absolute; left:20%; top:18%; width:26%; height:15%; border-radius:50%; background:rgba(255,255,255,.55); transform:rotate(-32deg)}
 .final .big-yuzu::before{content:""; position:absolute; width:34%; height:16%; right:12%; top:-4%; border-radius:100% 0 100% 0; background:#5e9c5a; transform:rotate(-18deg)}
 @media (max-width:767px){.final .box{grid-template-columns:1fr; padding:3rem 1.5rem} .final .big-yuzu{width:9rem; order:-1; justify-self:start}}
 
@@ -376,6 +378,7 @@ html:not(.js) .ln > span, html:not(.js) .rv{transform:none; opacity:1}
           <div role="tabpanel" id="p2" aria-labelledby="t2" hidden><h3>Fund with SOL</h3><p>Buy a little SOL on any exchange and send it to the address of your new wallet.</p><ul><li>Keep a small amount for network fees</li><li>Send a test transfer first if you are new</li></ul></div>
           <div role="tabpanel" id="p3" aria-labelledby="t3" hidden><h3>Swap for $CAPY</h3><p>Open Jupiter or Raydium, paste the contract address from this page and swap SOL for $CAPY.</p><ul><li>Check the address character by character</li><li>Fake tokens copy names, not addresses</li></ul></div>
           <div role="tabpanel" id="p4" aria-labelledby="t4" hidden><h3>Stay capy</h3><p>Close the app. Touch grass. Come back whenever. That is the entire strategy.</p><ul><li>Only spend what you are fine losing</li><li>No one from $CAPY will ever DM you first</li></ul></div>
+          <div class="slip-foot"><span class="num">No. 000420</span><span>Valid for one long soak</span></div>
         </div>
       </div>
     </div>
@@ -401,9 +404,9 @@ html:not(.js) .ln > span, html:not(.js) .rv{transform:none; opacity:1}
       <h2 id="com-title" data-split>Come soak with the herd.</h2>
       <p class="sub rv">Capybaras are never alone. Pick a locker.</p>
       <div class="lockers">
-        <a class="locker rv" href="#" aria-label="$CAPY on Telegram (demo link)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 4.3 2.9 11.4c-1 .4-1 1.8.1 2.1l4.6 1.4 1.8 5.4c.3.8 1.3.9 1.8.3l2.6-2.8 4.7 3.4c.7.5 1.7.1 1.9-.7L23 5.4c.2-1-.7-1.5-1.5-1.1Z"/></svg><span><b>Telegram</b><small>Daily soak and memes</small></span></a>
-        <a class="locker rv" href="#" aria-label="$CAPY on X (demo link)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.3 8.3L23 22h-6.8l-5.3-6.9L4.8 22H1.7l7.8-8.9L1 2h7l4.8 6.3L18.9 2Zm-2.4 18h1.9L7.6 4H5.6l10.9 16Z"/></svg><span><b>X</b><small>Announcements, rarely</small></span></a>
-        <a class="locker rv" href="#" aria-label="$CAPY chart on DexScreener (demo link)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16l4-5 3 3 5-7 4 6"/><path d="M4 20h16"/></svg><span><b>DexScreener</b><small>The chart, if you must</small></span></a>
+        <a class="locker rv" href="#" data-n="01" aria-label="$CAPY on Telegram (demo link)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 4.3 2.9 11.4c-1 .4-1 1.8.1 2.1l4.6 1.4 1.8 5.4c.3.8 1.3.9 1.8.3l2.6-2.8 4.7 3.4c.7.5 1.7.1 1.9-.7L23 5.4c.2-1-.7-1.5-1.5-1.1Z"/></svg><span><b>Telegram</b><small>Daily soak and memes</small></span></a>
+        <a class="locker rv" href="#" data-n="02" aria-label="$CAPY on X (demo link)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.3 8.3L23 22h-6.8l-5.3-6.9L4.8 22H1.7l7.8-8.9L1 2h7l4.8 6.3L18.9 2Zm-2.4 18h1.9L7.6 4H5.6l10.9 16Z"/></svg><span><b>X</b><small>Announcements, rarely</small></span></a>
+        <a class="locker rv" href="#" data-n="03" aria-label="$CAPY chart on DexScreener (demo link)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16l4-5 3 3 5-7 4 6"/><path d="M4 20h16"/></svg><span><b>DexScreener</b><small>The chart, if you must</small></span></a>
       </div>
     </div>
   </section>
@@ -412,11 +415,11 @@ html:not(.js) .ln > span, html:not(.js) .rv{transform:none; opacity:1}
     <div class="wrap">
       <div class="sec-head"><h2 id="faq-title" data-split>Honest answers, no hype.</h2></div>
       <div class="faq rv">
-        <details class="qa"><summary>What is $CAPY?<span class="pm" aria-hidden="true"></span></summary><p class="ans">A community memecoin on Solana themed around the capybara, the calmest animal alive. It is a fun, low-stress token, not a business or a promise of returns.</p></details>
-        <details class="qa"><summary>Is the contract safe?<span class="pm" aria-hidden="true"></span></summary><p class="ans">Liquidity is burned and the contract is renounced, so no one can mint new tokens, change the tax or drain the pool. Always do your own research before buying anything.</p></details>
-        <details class="qa"><summary>What is the tax?<span class="pm" aria-hidden="true"></span></summary><p class="ans">Zero on both buys and sells. There is no reflection mechanic and no team fee taken from trades.</p></details>
-        <details class="qa"><summary>Why yuzu?<span class="pm" aria-hidden="true"></span></summary><p class="ans">Since 1982 the capybaras at Izu Shaboten Zoo in Japan get a warm open-air bath every winter, and keepers float yuzu citrus in it. The photos became a meme. We just made a coin about it.</p></details>
-        <details class="qa"><summary>Will this make me rich?<span class="pm" aria-hidden="true"></span></summary><p class="ans">Probably not, and anyone who promises otherwise is lying. $CAPY is a meme, not an investment. Only spend what you are completely fine losing, and stay capy about it.</p></details>
+        <article class="qa"><h3>What is $CAPY?</h3><p class="ans">A community memecoin on Solana themed around the capybara, the calmest animal alive. It is a fun, low-stress token, not a business or a promise of returns.</p></article>
+        <article class="qa"><h3>Is the contract safe?</h3><p class="ans">Liquidity is burned and the contract is renounced, so no one can mint new tokens, change the tax or drain the pool. Always do your own research before buying anything.</p></article>
+        <article class="qa"><h3>What is the tax?</h3><p class="ans">Zero on both buys and sells. There is no reflection mechanic and no team fee taken from trades.</p></article>
+        <article class="qa"><h3>Why yuzu?</h3><p class="ans">Since 1982 the capybaras at Izu Shaboten Zoo in Japan get a warm open-air bath every winter, and keepers float yuzu citrus in it. The photos became a meme. We just made a coin about it.</p></article>
+        <article class="qa wide"><h3>Will this make me rich?</h3><p class="ans">Probably not, and anyone who promises otherwise is lying. $CAPY is a meme, not an investment. Only spend what you are completely fine losing, and stay capy about it.</p></article>
       </div>
     </div>
   </section>
@@ -426,7 +429,7 @@ html:not(.js) .ln > span, html:not(.js) .rv{transform:none; opacity:1}
       <div class="box rv">
         <div>
           <h2 id="final-title">Ready to slow down?</h2>
-          <p>Grab a bag, close the laptop and let the herd do the worrying. Which is to say: none.</p>
+          <p>Grab a bag, close the laptop and let the herd do the worrying. Which is to&nbsp;say:&nbsp;none.</p>
           <a class="btn btn-yuzu" href="#buy">Buy $CAPY</a>
         </div>
         <div class="big-yuzu" aria-hidden="true"></div>

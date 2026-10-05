@@ -131,16 +131,17 @@ const cv = $('#bath'), ctx = cv.getContext('2d');
 const COL = {
   sky: '#c4e1e8', sky2: '#e6f3f5', fuji: '#3f719a', fuji2: '#2c587e', snow: '#f7fbfb', hill: '#a3cbd8', hill2: '#86b9cb',
   water: 'rgba(79,163,194,', water2: 'rgba(47,127,163,', fur: '#a8663c', furD: '#8b5232', muz: '#7a4428', ear: '#673920',
-  eye: '#24160d', yuzu: '#ffc52e', leaf: '#5e9c5a', tile: '#f2f7f7', grout: '#c3d8da', cloud: '#f7fbfb',
+  eye: '#24160d', yuzu: '#ffc52e', leaf: '#5e9c5a', tile: '#f2f7f7', grout: '#c3d8da', cloud: '#f7fbfb', rock: '#5d7685', rock2: '#4a6272',
 };
 const P = {
-  body: new Path2D('M150 250 C152 178 222 140 300 142 C382 145 432 192 432 250 Z'),
-  head: new Path2D('M40 128 C80 112 120 104 160 100 C200 96 232 108 240 140 C248 172 252 205 252 250 L120 250 C100 240 80 222 62 212 C44 204 30 196 28 178 C26 158 30 136 40 128 Z'),
-  muzzle: new Path2D('M40 128 C55 122 70 119 84 117 C90 145 90 182 82 214 C64 210 42 202 31 190 C26 170 28 140 40 128 Z'),
-  nostril: new Path2D('M45 135 q8 3 6 12'),
-  mouth: new Path2D('M33 189 q17 9 40 3'),
-  jaw: new Path2D('M88 214 q48 20 110 12'),
-  fur: new Path2D('M268 160 q10 -8 22 -6 M318 158 q12 -6 24 0 M296 182 q10 -7 20 -4'),
+  body: new Path2D('M150 250 C150 176 226 132 308 134 C392 137 438 188 438 250 Z'),
+  head: new Path2D('M240 250 C248 200 246 150 232 124 C220 100 190 92 160 94 C120 97 78 108 50 122 C34 130 26 146 25 168 C24 192 30 212 44 226 C54 236 66 244 78 250 Z'),
+  muzzle: new Path2D('M50 122 C34 130 26 146 25 168 C24 192 30 212 44 226 C54 236 66 244 78 250 L98 250 C94 200 92 150 88 115 C74 116 61 118 50 122 Z'),
+  rim: new Path2D('M262 141 q52 -10 100 14 M66 117 q52 -20 108 -22'),
+  nostril: new Path2D('M36 139 q8 2 7 11'),
+  mouth: new Path2D('M27 201 q14 8 34 2'),
+  jaw: new Path2D('M102 224 q52 15 112 4'),
+  fur: new Path2D('M276 157 q10 -8 22 -6 M326 155 q12 -6 24 0 M302 181 q10 -7 20 -4'),
 };
 const COLLIDERS = [[72, 176, 48], [170, 162, 62], [312, 214, 96]];
 let W = 0, H = 0, DPR = 1, waterY = 0, cs = 1, capL = 0, rimH = 0, mobile = false;
@@ -189,14 +190,21 @@ function makeMural() {
   sky.addColorStop(0, COL.sky); sky.addColorStop(1, COL.sky2);
   g.fillStyle = sky; g.fillRect(0, 0, W, waterY + 2);
   const sunR = Math.min(W, H) * (mobile ? .09 : .065);
+  const sx = W * (mobile ? .84 : .88), sy = H * (mobile ? .2 : .23);
+  [[1.55, .12], [1.25, .22]].forEach(([k, a]) => { g.fillStyle = `rgba(255,197,46,${a})`; g.beginPath(); g.arc(sx, sy, sunR * k, 0, Math.PI * 2); g.fill(); });
   g.fillStyle = COL.yuzu;
-  g.beginPath(); g.arc(W * (mobile ? .84 : .88), H * (mobile ? .2 : .23), sunR, 0, Math.PI * 2); g.fill();
+  g.beginPath(); g.arc(sx, sy, sunR, 0, Math.PI * 2); g.fill();
   g.fillStyle = COL.cloud;
-  const cloud = (x, y, w, h) => { g.beginPath(); g.roundRect(x, y, w, h, h / 2); g.fill(); };
+  const cloud = (x, y, w) => {
+    const h = w * .2;
+    g.beginPath(); g.moveTo(x, y);
+    g.arc(x + w * .22, y, h, Math.PI, 0); g.arc(x + w * .5, y, h * 1.45, Math.PI, 0); g.arc(x + w * .8, y, h * .9, Math.PI, 0);
+    g.lineTo(x + w, y); g.closePath(); g.fill();
+  };
   const U = Math.min(W, H) / 100;
-  cloud(W * (mobile ? .52 : .62), H * .3, 18 * U, 3.2 * U);
-  cloud(W * (mobile ? .6 : .7), H * .345, 26 * U, 3.2 * U);
-  cloud(W * (mobile ? .08 : .44), H * .18, 15 * U, 2.8 * U);
+  cloud(W * (mobile ? .5 : .6), H * .33, 16 * U);
+  cloud(W * (mobile ? .66 : .74), H * .37, 22 * U);
+  cloud(W * (mobile ? .06 : .44), H * .2, 13 * U);
   const baseY = waterY - H * .035, peakY = H * (mobile ? .14 : .27);
   const L = W * (mobile ? .02 : .4), R = W * (mobile ? 1.0 : 1.08), mid = (L + R) / 2, plat = (R - L) * .055;
   const p0 = [L, baseY], p2 = [mid - plat, peakY], p1 = [L + (mid - L) * .62, baseY - (baseY - peakY) * .28];
@@ -224,6 +232,12 @@ function makeMural() {
   hills(COL.hill2, waterY - H * .022, H * .012, .01, .2);
   g.fillStyle = '#e7f1f1'; g.fillRect(0, waterY - 7 * cs, W, 7 * cs + 2);
   g.fillStyle = COL.grout; g.fillRect(0, waterY - 1, W, 2);
+  const rock = (x, w, h, col) => {
+    g.fillStyle = col; g.beginPath(); g.ellipse(x, waterY + h * .15, w, h, 0, Math.PI, 0); g.fill();
+    g.fillStyle = 'rgba(255,255,255,.16)'; g.beginPath(); g.ellipse(x - w * .2, waterY - h * .55, w * .5, h * .22, -.12, 0, Math.PI * 2); g.fill();
+  };
+  [[.05, 10, 5.5, COL.rock2], [.115, 6.5, 3.4, COL.rock], [.165, 4, 2.2, COL.rock2], [.9, 4.5, 2.4, COL.rock], [.95, 11, 6, COL.rock2], [1.01, 7, 3.8, COL.rock]]
+    .forEach(([k, w, h, col]) => rock(W * k, w * U, h * U, col));
   mural = c;
 }
 
@@ -348,17 +362,22 @@ function drawCapy() {
   ctx.save();
   ctx.translate(capL, waterY - 250 * cs + bob());
   ctx.scale(cs, cs);
-  ctx.fillStyle = COL.fur; ctx.fill(P.body);
+  const shade = ctx.createLinearGradient(0, 96, 0, 250);
+  shade.addColorStop(0, COL.fur); shade.addColorStop(.5, COL.fur); shade.addColorStop(1, COL.furD);
+  ctx.fillStyle = shade; ctx.fill(P.body);
   ctx.fillStyle = COL.ear;
-  ctx.beginPath(); ctx.ellipse(224, 106, 13, 11, -.5, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = COL.fur; ctx.fill(P.head);
-  ctx.fillStyle = COL.muz; ctx.fill(P.muzzle);
-  ctx.fillStyle = COL.ear;
-  ctx.beginPath(); ctx.ellipse(204, 100, 15, 12, -.35, 0, Math.PI * 2); ctx.fill();
-  ctx.fillStyle = '#8f5530';
-  ctx.beginPath(); ctx.ellipse(206, 103, 7, 5.5, -.35, 0, Math.PI * 2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(220, 104, 12, 10, -.5, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = shade; ctx.fill(P.head);
+  const mz = ctx.createLinearGradient(25, 0, 96, 0);
+  mz.addColorStop(0, 'rgba(122,68,40,.9)'); mz.addColorStop(.45, 'rgba(122,68,40,.4)'); mz.addColorStop(1, 'rgba(122,68,40,0)');
+  ctx.fillStyle = mz; ctx.fill(P.muzzle);
   ctx.lineCap = 'round';
-  ctx.strokeStyle = 'rgba(80,40,18,.35)'; ctx.lineWidth = 4; ctx.stroke(P.jaw); ctx.stroke(P.fur);
+  ctx.strokeStyle = 'rgba(255,220,180,.3)'; ctx.lineWidth = 7; ctx.stroke(P.rim);
+  ctx.fillStyle = COL.ear;
+  ctx.beginPath(); ctx.ellipse(202, 98, 14, 11, -.35, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#8f5530';
+  ctx.beginPath(); ctx.ellipse(204, 101, 6.5, 5, -.35, 0, Math.PI * 2); ctx.fill();
+  ctx.strokeStyle = 'rgba(80,40,18,.3)'; ctx.lineWidth = 4; ctx.stroke(P.jaw); ctx.stroke(P.fur);
   const open = Math.max(0, .55 - blink * .55 - squint * .45);
   ctx.save();
   ctx.beginPath(); ctx.ellipse(130, 134, 9, 8, -.15, 0, Math.PI * 2); ctx.clip();
@@ -389,6 +408,14 @@ function draw() {
   if (!mural) return;
   ctx.clearRect(0, 0, W, H);
   ctx.drawImage(mural, 0, 0, W, H);
+  if (!reduce) {
+    ctx.lineCap = 'round';
+    for (let i = 0; i < 5; i++) {
+      const ph = (t * .08 + i * .21) % 1, x = W * (.12 + i * .19) + Math.sin(t * .4 + i) * 6 * cs, y = waterY - ph * H * .2;
+      ctx.strokeStyle = `rgba(255,255,255,${Math.sin(ph * Math.PI) * .32})`; ctx.lineWidth = 15 * cs;
+      ctx.beginPath(); ctx.moveTo(x, y); ctx.bezierCurveTo(x - 14 * cs, y - 22 * cs, x + 14 * cs, y - 36 * cs, x, y - 58 * cs); ctx.stroke();
+    }
+  }
   drawCapy();
   yuzus.forEach(drawYuzu);
   const grad = ctx.createLinearGradient(0, waterY, 0, H);
@@ -415,14 +442,6 @@ function draw() {
   }
   ctx.fillStyle = 'rgba(235,248,252,.95)';
   for (const d of drops) { ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2); ctx.fill(); }
-  if (!reduce) {
-    ctx.lineCap = 'round';
-    for (let i = 0; i < 3; i++) {
-      const ph = (t * .1 + i * .33) % 1, x = capL + (60 + i * 150) * cs, y = waterY - 30 * cs - ph * H * .16;
-      ctx.strokeStyle = `rgba(255,255,255,${Math.sin(ph * Math.PI) * .2})`; ctx.lineWidth = 16 * cs;
-      ctx.beginPath(); ctx.moveTo(x, y); ctx.bezierCurveTo(x - 14 * cs, y - 20 * cs, x + 14 * cs, y - 34 * cs, x, y - 54 * cs); ctx.stroke();
-    }
-  }
   const tw = rimH * 1.1;
   ctx.fillStyle = COL.tile; ctx.fillRect(0, H - rimH, W, rimH);
   ctx.fillStyle = COL.grout; ctx.fillRect(0, H - rimH, W, 2);

@@ -134,8 +134,8 @@ const COL = {
   eye: '#24160d', yuzu: '#ffc52e', leaf: '#5e9c5a', tile: '#f2f7f7', grout: '#c3d8da', cloud: '#f7fbfb', rock: '#5d7685', rock2: '#4a6272',
 };
 const P = {
-  body: new Path2D('M150 250 C150 176 226 132 308 134 C392 137 438 188 438 250 Z'),
-  head: new Path2D('M240 250 C248 200 246 150 232 124 C220 100 190 92 160 94 C120 97 78 108 50 122 C34 130 26 146 25 168 C24 192 30 212 44 226 C54 236 66 244 78 250 Z'),
+  body: new Path2D('M150 250 C150 176 226 132 308 134 C392 137 438 188 438 250 C438 284 396 304 300 306 C206 308 150 288 150 250 Z'),
+  head: new Path2D('M240 250 C248 200 246 150 232 124 C220 100 190 92 160 94 C120 97 78 108 50 122 C34 130 26 146 25 168 C24 192 30 212 44 226 C54 236 66 244 78 250 C92 280 150 296 200 292 C232 290 244 274 240 250 Z'),
   muzzle: new Path2D('M50 122 C34 130 26 146 25 168 C24 192 30 212 44 226 C54 236 66 244 78 250 L98 250 C94 200 92 150 88 115 C74 116 61 118 50 122 Z'),
   rim: new Path2D('M262 141 q52 -10 100 14 M66 117 q52 -20 108 -22'),
   nostril: new Path2D('M36 139 q8 2 7 11'),
@@ -145,7 +145,7 @@ const P = {
 };
 const COLLIDERS = [[72, 176, 48], [170, 162, 62], [312, 214, 96]];
 let W = 0, H = 0, DPR = 1, waterY = 0, cs = 1, capL = 0, rimH = 0, mobile = false;
-let mural = null, sprite = null, t = 0, last = 0, raf = 0, visible = true, frameFlip = false;
+let mural = null, sprite = null, steam = null, t = 0, last = 0, raf = 0, visible = true, frameFlip = false;
 let blinkT = 2.5, blink = 0, squint = 0;
 const yuzus = [], ripples = [], drops = [];
 let dropped = 0, draining = 0;
@@ -177,6 +177,17 @@ function makeSprite() {
   g.strokeStyle = 'rgba(30,60,30,.35)'; g.lineWidth = 2;
   g.beginPath(); g.moveTo(8, -R * 1.04); g.quadraticCurveTo(36, -R * 1.18, 62, -R * 1.12); g.stroke();
   sprite = { c, s, R };
+}
+
+function makeSteam() {
+  const w = 70 * cs, h = 150 * cs, c = document.createElement('canvas');
+  c.width = w * DPR; c.height = h * DPR;
+  const g = c.getContext('2d');
+  g.scale(DPR, DPR);
+  g.lineCap = 'round'; g.strokeStyle = 'rgba(255,255,255,.55)'; g.lineWidth = 16 * cs;
+  g.shadowColor = '#fff'; g.shadowBlur = 16 * cs;
+  g.beginPath(); g.moveTo(w / 2, h - 12 * cs); g.bezierCurveTo(w / 2 - 22 * cs, h * .62, w / 2 + 22 * cs, h * .38, w / 2, 14 * cs); g.stroke();
+  steam = c;
 }
 
 function qpt(a, b, c, k) { const u = 1 - k; return [u * u * a[0] + 2 * u * k * b[0] + k * k * c[0], u * u * a[1] + 2 * u * k * b[1] + k * k * c[1]]; }
@@ -256,6 +267,7 @@ function layout() {
   rimH = Math.max(22, H * .055);
   makeSprite();
   makeMural();
+  makeSteam();
   if (oldW) yuzus.forEach(y => { y.x = y.x / oldW * W; y.y += waterY - oldWater; });
   draw();
 }
@@ -394,6 +406,25 @@ function drawCapy() {
   ctx.restore();
 }
 
+function drawOke() {
+  const x = W * (mobile ? .16 : .3), k = cs * (mobile ? 1.15 : 1), y = surf(x) + 10 * k;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(reduce ? 0 : Math.sin(t * 1.3) * .05);
+  ctx.scale(k, k);
+  ctx.fillStyle = '#c99358';
+  ctx.beginPath(); ctx.moveTo(-30, -36); ctx.lineTo(30, -36); ctx.lineTo(24, 4); ctx.lineTo(-24, 4); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = 'rgba(90,56,26,.35)'; ctx.lineWidth = 1.6;
+  for (let i = -2; i <= 2; i++) { ctx.beginPath(); ctx.moveTo(i * 11, -36); ctx.lineTo(i * 9, 4); ctx.stroke(); }
+  ctx.fillStyle = '#5b4426';
+  ctx.fillRect(-29, -28, 58, 4); ctx.fillRect(-26, -10, 52, 4);
+  ctx.fillStyle = '#e1b27a';
+  ctx.beginPath(); ctx.ellipse(0, -36, 30, 6, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = '#8a5e33';
+  ctx.beginPath(); ctx.ellipse(0, -35.5, 26, 4.2, 0, 0, Math.PI * 2); ctx.fill();
+  ctx.restore();
+}
+
 function drawYuzu(y) {
   const k = y.r / sprite.R;
   ctx.save();
@@ -412,11 +443,13 @@ function draw() {
     ctx.lineCap = 'round';
     for (let i = 0; i < 5; i++) {
       const ph = (t * .08 + i * .21) % 1, x = W * (.12 + i * .19) + Math.sin(t * .4 + i) * 6 * cs, y = waterY - ph * H * .2;
-      ctx.strokeStyle = `rgba(255,255,255,${Math.sin(ph * Math.PI) * .32})`; ctx.lineWidth = 15 * cs;
-      ctx.beginPath(); ctx.moveTo(x, y); ctx.bezierCurveTo(x - 14 * cs, y - 22 * cs, x + 14 * cs, y - 36 * cs, x, y - 58 * cs); ctx.stroke();
+      ctx.globalAlpha = Math.sin(ph * Math.PI) * .55;
+      ctx.drawImage(steam, x - steam.width / DPR / 2, y - steam.height / DPR, steam.width / DPR, steam.height / DPR);
     }
+    ctx.globalAlpha = 1;
   }
   drawCapy();
+  drawOke();
   yuzus.forEach(drawYuzu);
   const grad = ctx.createLinearGradient(0, waterY, 0, H);
   grad.addColorStop(0, COL.water + '.78)');

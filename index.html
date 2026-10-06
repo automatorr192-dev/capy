@@ -74,6 +74,9 @@ h3{font-size:1.4rem; line-height:1.15}
 .sub{color:var(--mut); max-width:44ch; margin-top:1rem; font-size:1.125rem}
 .sec{padding:8rem 0}
 .sec-head{margin-bottom:3.5rem; max-width:42rem}
+.sec-head.inline{max-width:none; display:flex; justify-content:space-between; align-items:flex-end; gap:1rem 3rem; flex-wrap:wrap}
+.sec-head.inline .sub{margin:0; max-width:24ch; text-align:right}
+@media (max-width:767px){.sec-head.inline .sub{text-align:left}}
 .num{font-variant-numeric:tabular-nums}
 
 .btn{display:inline-flex; align-items:center; justify-content:center; gap:.6rem; min-height:3.4rem; padding:0 1.6rem; border-radius:999px; border:2px solid var(--ink); font-family:var(--fd); font-size:1rem; letter-spacing:.01em; white-space:nowrap; cursor:pointer; transition:transform .18s var(--snap), background-color .25s var(--snap), box-shadow .25s var(--snap)}
@@ -132,9 +135,11 @@ html:not(.js) .noren{display:none}
 .bath-hint button{pointer-events:auto; border:0; background:transparent; font-weight:700; text-decoration:underline; text-underline-offset:.2em; cursor:pointer; padding:0 0 0 .4rem; color:var(--mut)}
 @media (max-width:767px){
   .hero{height:auto; min-height:0; padding-top:calc(var(--nav-h) + 1.5rem)}
-  .hero-copy{position:relative; left:auto; top:auto; padding:2rem var(--gut) 2.5rem; max-width:none}
-  .hero canvas{position:relative; display:block; height:62vw; min-height:20rem}
-  .bath-hint{left:var(--gut); right:auto; bottom:auto; top:calc(var(--nav-h) + 1.5rem + max(62vw, 20rem) - 5.2rem); font-size:.85rem}
+  .hero-copy{position:relative; left:auto; top:auto; padding:1.25rem var(--gut) 2.5rem; max-width:none}
+  .hero{display:flex; flex-direction:column}
+  .hero canvas{position:relative; display:block; height:min(104vw, 30rem); min-height:0}
+  .hero-copy{order:2}
+  .bath-hint{order:1; position:relative; left:auto; right:auto; bottom:auto; top:auto; align-self:flex-start; margin:.9rem var(--gut) 0; padding:0; background:none; font-size:.85rem}
 }
 
 .board{background:var(--ink); color:#eef4f6; overflow:hidden}
@@ -144,8 +149,9 @@ html:not(.js) .noren{display:none}
 .board .k{font-size:.85rem; color:#aab8cc; font-weight:700}
 .board .v{font-family:var(--fd); font-size:2rem; color:var(--yuzu); line-height:1.1; margin-top:.3rem}
 .ticker{display:flex; align-items:center; flex-wrap:wrap; gap:.4rem 1rem}
-.ticker .v{color:#fff}
+.ticker .v{color:#fff; font-variant-numeric:proportional-nums}
 .ticker svg{width:5.5rem; height:2.4rem; overflow:visible}
+@media (max-width:599px){.ticker svg{display:none}}
 .ticker path{fill:none; stroke:var(--yuzu); stroke-width:2.5; stroke-linecap:round; stroke-linejoin:round}
 .chg{font-weight:700; font-size:.95rem; padding:.1rem .55rem; border-radius:999px; background:rgba(255,197,46,.16); color:var(--yuzu)}
 .chg.down{background:rgba(255,255,255,.1); color:#cbd5e1}
@@ -157,9 +163,10 @@ html:not(.js) .noren{display:none}
 .signboard{background:#efd6a6; border:3px solid var(--ink); border-radius:var(--r); box-shadow:.6rem .6rem 0 var(--ink); padding:1rem 2.5rem}
 .rule{display:grid; grid-template-columns:4.5rem 1fr; gap:1.5rem; padding:2rem 0; border-bottom:2px dashed rgba(22,36,63,.28)}
 .rule:last-child{border-bottom:0}
-.rule .kn{font-family:var(--fd); font-size:3.4rem; line-height:1; color:var(--ink); text-align:center}
+.rule .kn{width:4rem; height:4rem; padding:.55rem; border-radius:.45rem; background:#c8452c; fill:#f8e6c8; justify-self:center; margin-top:.15rem; transform:rotate(-3deg); box-shadow:inset 0 0 0 .18rem rgba(248,230,200,.35)}
 .rule h3{font-size:1.65rem}
 .rule p{margin-top:.6rem; color:var(--ink-2); max-width:42ch}
+@media (max-width:899px){.rule .kn{width:3rem; height:3rem; padding:.4rem}}
 @media (max-width:899px){.rules{grid-template-columns:1fr; gap:2.5rem} .rules-head{position:relative; top:auto} .signboard{padding:.5rem 1.25rem; box-shadow:.4rem .4rem 0 var(--ink)} .rule{grid-template-columns:3rem 1fr; gap:1rem} .rule .kn{font-size:2.4rem}}
 
 .tok{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:4rem; align-items:center}
@@ -202,6 +209,7 @@ html:not(.js) .noren{display:none}
 .slip-foot{margin-top:auto; padding-top:1.25rem; border-top:2px dashed var(--grout); display:flex; justify-content:space-between; gap:1rem; font-weight:700; font-size:.85rem; color:var(--mut)}
 .slip [role=tabpanel]{margin-bottom:2rem}
 @keyframes slip{from{opacity:0; transform:translateY(.75rem)}to{opacity:1; transform:none}}
+@media (max-width:599px){.keys{grid-template-columns:1fr; gap:.6rem} .key{min-height:4.6rem; flex-direction:row; align-items:flex-end; justify-content:space-between; gap:1rem; padding-right:3.2rem} .key::before{top:50%; transform:translateY(-50%)} .key small{order:2; text-align:right}}
 @media (max-width:899px){.machine{grid-template-columns:1fr; padding:1rem} .key{min-height:6.5rem} .slip{padding:1.5rem}}
 
 .seasons{display:grid; grid-template-columns:repeat(4,1fr); gap:0; margin-top:1rem}
@@ -220,7 +228,9 @@ html:not(.js) .noren{display:none}
 
 .lockers{display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin-top:3rem}
 .locker{position:relative; display:flex; flex-direction:column; justify-content:space-between; min-height:11rem; padding:1.5rem; border-radius:var(--r); background:#d4e5e7; border:2px solid var(--ink); transition:transform .25s var(--snap), background-color .25s var(--snap)}
-.locker::after{content:attr(data-n); position:absolute; right:1.25rem; top:1.25rem; width:2.6rem; height:2.6rem; border-radius:50%; border:2px solid var(--ink); display:grid; place-items:center; font-family:var(--fd); font-size:.85rem; background:var(--tile)}
+.lockers{grid-template-columns:1.3fr 1fr 1fr}
+.locker:first-child{background:var(--yuzu-soft)}
+.locker:first-child b{font-size:2.2rem}
 .locker svg{width:2.4rem; height:2.4rem}
 .locker b{font-family:var(--fd); font-weight:400; font-size:1.6rem}
 .locker small{display:block; font-weight:700; color:var(--mut); font-size:.85rem}
@@ -240,7 +250,8 @@ html:not(.js) .noren{display:none}
 .final h2{font-size:clamp(2.4rem, 3.6vw + 1rem, 4.6rem)}
 .final p{margin-top:1rem; color:#eef7fa; max-width:36ch; font-size:1.15rem}
 .final .btn{margin-top:2rem}
-.final .big-yuzu{justify-self:center; width:min(22rem, 70%); aspect-ratio:1; border-radius:50%; background:var(--yuzu); box-shadow:inset -1.6rem -1.4rem 0 rgba(214,130,0,.28); position:relative}
+.final .big-yuzu{justify-self:center; width:min(22rem, 70%); aspect-ratio:1; border-radius:50%; background:radial-gradient(circle at 62% 30%, rgba(214,130,0,.35) 0 .25rem, transparent .3rem), radial-gradient(circle at 44% 58%, rgba(214,130,0,.3) 0 .2rem, transparent .25rem), radial-gradient(circle at 70% 64%, rgba(214,130,0,.3) 0 .22rem, transparent .27rem), radial-gradient(circle at 32% 76%, rgba(214,130,0,.28) 0 .18rem, transparent .23rem), radial-gradient(circle at 80% 46%, rgba(214,130,0,.3) 0 .2rem, transparent .25rem), var(--yuzu); box-shadow:inset -1.6rem -1.4rem 0 rgba(214,130,0,.28); position:relative}
+.final .big-yuzu i{position:absolute; left:58%; top:-5%; width:.55rem; height:14%; border-radius:.3rem; background:#5b4426; transform:rotate(14deg)}
 .final .big-yuzu::after{content:""; position:absolute; left:20%; top:18%; width:26%; height:15%; border-radius:50%; background:rgba(255,255,255,.55); transform:rotate(-32deg)}
 .final .big-yuzu::before{content:""; position:absolute; width:34%; height:16%; right:12%; top:-4%; border-radius:100% 0 100% 0; background:#5e9c5a; transform:rotate(-18deg)}
 @media (max-width:767px){.final .box{grid-template-columns:1fr; padding:3rem 1.5rem} .final .big-yuzu{width:9rem; order:-1; justify-self:start}}
@@ -330,9 +341,9 @@ html:not(.js) .ln > span, html:not(.js) .rv{transform:none; opacity:1}
         <p class="sub rv">Every bathhouse has a sign by the door. Ours is short, and the contract enforces it.</p>
       </div>
       <div class="signboard rv">
-        <div class="rule"><span class="kn" aria-hidden="true">一</span><div><h3>Rinse off the FOMO.</h3><p>No 3am charts, no countdown timers, no pressure. $CAPY is somewhere to park a little SOL and let it soak.</p></div></div>
-        <div class="rule"><span class="kn" aria-hidden="true">二</span><div><h3>Nobody holds the plug.</h3><p>Liquidity is burned and the contract is renounced. No dev wallet, no hidden keys, no one who can drain the bath.</p></div></div>
-        <div class="rule"><span class="kn" aria-hidden="true">三</span><div><h3>No tax in the water.</h3><p>Zero on buys, zero on sells, no reflections math. What you hold is exactly what you hold.</p></div></div>
+        <div class="rule"><svg class="kn" viewBox="0 0 100 100" aria-hidden="true"><path d="M10.0 53.5C10.0 42.2 23.5 40.0 32.5 44.8L70.5 40.2C85.5 33.8 95.2 44.2 89.2 54.8C83.2 61.5 73.5 54.8 64.5 54.0L29.5 59.2C17.5 61.3 10.0 60.2 10.0 53.5Z"/></svg><div><h3>Rinse off the FOMO.</h3><p>No 3am charts, no countdown timers, no pressure. $CAPY is somewhere to park a little SOL and let it soak.</p></div></div>
+        <div class="rule"><svg class="kn" viewBox="0 0 100 100" aria-hidden="true"><path d="M24.0 31.3C24.0 21.5 35.7 19.6 43.5 23.8L59.1 19.4C72.1 13.9 80.5 22.9 75.3 32.0C70.2 37.9 61.7 32.0 53.9 31.4L40.9 36.2C30.5 38.1 24.0 37.1 24.0 31.3ZM8.0 73.5C8.0 62.2 21.5 60.0 30.5 64.8L72.5 60.2C87.5 53.8 97.2 64.2 91.2 74.8C85.2 81.5 75.5 74.8 66.5 74.0L27.5 79.2C15.5 81.3 8.0 80.2 8.0 73.5Z"/></svg><div><h3>Nobody holds the plug.</h3><p>Liquidity is burned and the contract is renounced. No dev wallet, no hidden keys, no one who can drain the bath.</p></div></div>
+        <div class="rule"><svg class="kn" viewBox="0 0 100 100" aria-hidden="true"><path d="M20.0 21.2C20.0 11.9 31.2 10.0 38.8 14.0L63.8 9.8C76.2 4.4 84.4 13.1 79.4 21.9C74.4 27.5 66.2 21.9 58.8 21.2L36.2 26.0C26.2 27.8 20.0 26.9 20.0 21.2ZM28.0 49.2C28.0 40.2 38.8 38.4 46.0 42.2L56.4 38.1C68.4 32.9 76.2 41.3 71.4 49.7C66.6 55.1 58.8 49.7 51.6 49.1L43.6 53.8C34.0 55.4 28.0 54.6 28.0 49.2ZM8.0 81.5C8.0 70.6 21.1 68.4 29.8 73.0L73.2 68.5C87.7 62.3 97.1 72.4 91.3 82.6C85.5 89.1 76.0 82.6 67.3 81.8L26.9 87.0C15.2 89.0 8.0 88.0 8.0 81.5Z"/></svg><div><h3>No tax in the water.</h3><p>Zero on buys, zero on sells, no reflections math. What you hold is exactly what you hold.</p></div></div>
       </div>
     </div>
   </section>
@@ -354,7 +365,7 @@ html:not(.js) .ln > span, html:not(.js) .rv{transform:none; opacity:1}
           <div><dt>Tax, buy / sell</dt><dd>0 / 0</dd></div>
           <div><dt>Contract</dt><dd>Renounced</dd></div>
         </dl>
-        <div class="ca rv"><code id="ca" title="Demo contract address">CApY5tayCh1LLmandar1nH0tSpr1ng9vibes4everXo</code><button class="btn btn-yuzu" type="button" id="copy">Copy</button></div>
+        <div class="ca rv"><span class="demo-tag">demo</span><code id="ca" title="Demo contract address">CApY5tayCh1LLmandar1nHotSpr1ng9vibes4everXo</code><button class="btn btn-yuzu" type="button" id="copy">Copy</button></div>
       </div>
     </div>
   </section>
@@ -386,7 +397,7 @@ html:not(.js) .ln > span, html:not(.js) .rv{transform:none; opacity:1}
 
   <section class="sec" id="roadmap" aria-labelledby="road-title" style="padding-top:2rem">
     <div class="wrap">
-      <div class="sec-head">
+      <div class="sec-head inline">
         <h2 id="road-title" data-split>Four seasons of soaking.</h2>
         <p class="sub rv">No moon math and no promises we cannot keep.</p>
       </div>
@@ -402,11 +413,10 @@ html:not(.js) .ln > span, html:not(.js) .rv{transform:none; opacity:1}
   <section class="sec" id="community" aria-labelledby="com-title" style="padding-top:2rem">
     <div class="wrap">
       <h2 id="com-title" data-split>Come soak with the herd.</h2>
-      <p class="sub rv">Capybaras are never alone. Pick a locker.</p>
       <div class="lockers">
-        <a class="locker rv" href="#" data-n="01" aria-label="$CAPY on Telegram (demo link)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 4.3 2.9 11.4c-1 .4-1 1.8.1 2.1l4.6 1.4 1.8 5.4c.3.8 1.3.9 1.8.3l2.6-2.8 4.7 3.4c.7.5 1.7.1 1.9-.7L23 5.4c.2-1-.7-1.5-1.5-1.1Z"/></svg><span><b>Telegram</b><small>Daily soak and memes</small></span></a>
-        <a class="locker rv" href="#" data-n="02" aria-label="$CAPY on X (demo link)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.3 8.3L23 22h-6.8l-5.3-6.9L4.8 22H1.7l7.8-8.9L1 2h7l4.8 6.3L18.9 2Zm-2.4 18h1.9L7.6 4H5.6l10.9 16Z"/></svg><span><b>X</b><small>Announcements, rarely</small></span></a>
-        <a class="locker rv" href="#" data-n="03" aria-label="$CAPY chart on DexScreener (demo link)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16l4-5 3 3 5-7 4 6"/><path d="M4 20h16"/></svg><span><b>DexScreener</b><small>The chart, if you must</small></span></a>
+        <a class="locker rv" href="#" aria-label="$CAPY on Telegram (demo link)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21.5 4.3 2.9 11.4c-1 .4-1 1.8.1 2.1l4.6 1.4 1.8 5.4c.3.8 1.3.9 1.8.3l2.6-2.8 4.7 3.4c.7.5 1.7.1 1.9-.7L23 5.4c.2-1-.7-1.5-1.5-1.1Z"/></svg><span><b>Telegram</b><small>Daily soak and memes</small></span></a>
+        <a class="locker rv" href="#" aria-label="$CAPY on X (demo link)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.3 8.3L23 22h-6.8l-5.3-6.9L4.8 22H1.7l7.8-8.9L1 2h7l4.8 6.3L18.9 2Zm-2.4 18h1.9L7.6 4H5.6l10.9 16Z"/></svg><span><b>X</b><small>Announcements, rarely</small></span></a>
+        <a class="locker rv" href="#" aria-label="$CAPY chart on DexScreener (demo link)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 16l4-5 3 3 5-7 4 6"/><path d="M4 20h16"/></svg><span><b>DexScreener</b><small>The chart, if you must</small></span></a>
       </div>
     </div>
   </section>
@@ -432,7 +442,7 @@ html:not(.js) .ln > span, html:not(.js) .rv{transform:none; opacity:1}
           <p>Grab a bag, close the laptop and let the herd do the worrying. Which is to&nbsp;say:&nbsp;none.</p>
           <a class="btn btn-yuzu" href="#buy">Buy $CAPY</a>
         </div>
-        <div class="big-yuzu" aria-hidden="true"></div>
+        <div class="big-yuzu" aria-hidden="true"><i></i></div>
       </div>
     </div>
   </section>
